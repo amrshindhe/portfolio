@@ -5,173 +5,235 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Amar Shindhe — Cloud Security Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    :root {
-      --bg:      #0b0b0b;
-      --panel:   #111111;
-      --text:    #f2f2f2;
-      --muted:   #555;
-      --dim:     #2a2a2a;
-      --accent:  #e8e8e8;
-    }
-
-    html, body {
-      height: 100%;
-      font-family: "Inter", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow: hidden;
-    }
-
-    /* ── Layout ─────────────────────────────────── */
-    .layout {
-      display: grid;
-      grid-template-columns: 52% 48%;
-      height: 100vh;
-    }
-
-    /* ── Portrait panel ─────────────────────────── */
-    .portrait-panel {
-      background: #fff;
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background: #f5f5f0;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* subtle dot-grid background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(#d4d4cc 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
       position: relative;
-      overflow: hidden;
+      z-index: 1;
+      width: 100%;
+      max-width: 940px;
+      padding: 48px 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    /* ── Portrait card ──────────────────────────── */
+    .portrait-card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow:
+        0 1px 2px rgba(0,0,0,0.04),
+        0 4px 16px rgba(0,0,0,0.07),
+        0 24px 48px rgba(0,0,0,0.06);
+      position: relative;
       cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.35s cubic-bezier(0.22,1,0.36,1);
     }
 
-    .portrait-panel::after {
-      content: "click to replay";
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 11px;
-      letter-spacing: 1.5px;
-      color: #bbb;
-      opacity: 0;
-      transition: opacity 0.4s;
-      text-transform: uppercase;
-      font-family: "Inter", sans-serif;
+    .portrait-card:hover {
+      transform: translateY(-5px);
+      box-shadow:
+        0 2px 4px rgba(0,0,0,0.04),
+        0 12px 32px rgba(0,0,0,0.11),
+        0 32px 64px rgba(0,0,0,0.09);
     }
-
-    .portrait-panel.done::after { opacity: 1; }
 
     #c {
       display: block;
-      max-height: 92vh;
-      max-width: 100%;
-      width: auto;
+      width: 100%;
       height: auto;
+      border-radius: 14px;
     }
 
-    /* ── Cursor dot ─────────────────────────────── */
-    #dot {
-      position: fixed;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #222;
-      box-shadow: 0 0 0 2px #fff, 0 0 14px 4px rgba(0,0,0,0.35);
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      z-index: 200;
-      transition: opacity 0.5s;
+    /* ── Spinning security ring ─────────────────── */
+    .spin-ring {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      animation: spin 16s linear infinite;
+      z-index: 10;
     }
 
-    /* ── Content panel ──────────────────────────── */
-    .content-panel {
-      display: flex;
-      align-items: center;
-      padding: 0 64px;
-      border-left: 1px solid var(--dim);
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .content-inner { width: 100%; }
-
-    /* ── Text elements ──────────────────────────── */
-    .tag {
-      font-size: 11px;
-      letter-spacing: 3px;
+    /* ── Replay hint ────────────────────────────── */
+    .replay-hint {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 10px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 28px;
+      color: #c4c4bc;
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+    .portrait-card.done .replay-hint { opacity: 1; }
+
+    /* ── Info panel ─────────────────────────────── */
+    .info { padding: 4px 12px; }
+
+    /* Status badge */
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #15803d;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 30px;
+      letter-spacing: 0.15px;
     }
 
+    .status-dot {
+      width: 7px; height: 7px;
+      background: #22c55e;
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: blink 2.2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* Name */
     .name {
-      font-size: clamp(44px, 4.5vw, 76px);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -2px;
-      color: var(--text);
-      margin-bottom: 20px;
+      font-size: clamp(42px, 5vw, 68px);
+      font-weight: 800;
+      line-height: 1.04;
+      letter-spacing: -2.5px;
+      color: #0a0a0a;
+      margin-bottom: 16px;
     }
 
+    /* Role */
     .role {
       font-size: 15px;
       font-weight: 400;
-      color: var(--muted);
-      letter-spacing: 0.2px;
+      color: #6b7280;
+      margin-bottom: 34px;
+      letter-spacing: 0.1px;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, #e5e5e0, transparent);
+      margin-bottom: 28px;
+    }
+
+    /* Bio */
+    .bio {
+      font-size: 14px;
+      line-height: 1.85;
+      color: #9ca3af;
+      font-weight: 300;
+      max-width: 340px;
       margin-bottom: 36px;
     }
 
-    .bio {
-      font-size: 14px;
-      font-weight: 300;
-      color: #888;
-      line-height: 1.75;
-      max-width: 340px;
-      margin-bottom: 44px;
-      font-style: italic;
-    }
-
-    .divider {
-      width: 32px;
-      height: 1px;
-      background: var(--dim);
-      margin-bottom: 32px;
-    }
-
-    .links {
+    /* Skill chips */
+    .chips {
       display: flex;
-      gap: 20px;
       flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 36px;
     }
+
+    .chip {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: #374151;
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      padding: 4px 12px;
+      border-radius: 99px;
+    }
+
+    /* Links */
+    .links { display: flex; gap: 10px; flex-wrap: wrap; }
 
     .links a {
-      font-size: 12px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
       text-decoration: none;
-      border-bottom: 1px solid var(--dim);
-      padding-bottom: 3px;
-      transition: color 0.2s, border-color 0.2s;
+      color: #111827;
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      padding: 9px 20px;
+      border-radius: 99px;
+      letter-spacing: 0.1px;
+      transition: background 0.18s, color 0.18s, border-color 0.18s, transform 0.18s;
     }
 
-    .links a:hover { color: var(--text); border-color: var(--text); }
+    .links a:hover {
+      background: #0a0a0a;
+      color: #fff;
+      border-color: #0a0a0a;
+      transform: translateY(-1px);
+    }
 
     /* ── Reveal animation ───────────────────────── */
     .reveal {
       opacity: 0;
-      transform: translateY(14px);
-      animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s) forwards;
+      transform: translateY(18px);
+      animation: up 0.85s cubic-bezier(0.22,1,0.36,1) var(--d,0s) forwards;
     }
 
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes up { to { opacity:1; transform:translateY(0); } }
+
+    /* ── Cursor dot ─────────────────────────────── */
+    #dot {
+      position: fixed;
+      width: 9px; height: 9px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.2), 0 0 14px rgba(16,185,129,0.5);
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+      z-index: 999;
+      transition: opacity 0.5s;
     }
 
     /* ── Mobile ─────────────────────────────────── */
-    @media (max-width: 768px) {
-      html, body { overflow: auto; }
-      .layout { grid-template-columns: 1fr; height: auto; }
-      .portrait-panel { height: 65vh; }
-      .content-panel { border-left: none; border-top: 1px solid var(--dim); padding: 48px 32px; }
+    @media (max-width: 700px) {
+      body { align-items: flex-start; }
+      .container { grid-template-columns: 1fr; padding: 28px 18px; gap: 28px; }
+      .spin-ring { display: none; }
       #dot { display: none; }
     }
   </style>
@@ -180,27 +242,64 @@
 
 <div id="dot"></div>
 
-<div class="layout">
+<div class="container">
 
-  <!-- Portrait -->
-  <div class="portrait-panel" id="panel">
+  <!-- ── Portrait ──────────────────────────────── -->
+  <div class="portrait-card" id="portrait-card">
+
+    <!-- Spinning keyword ring -->
+    <div class="spin-ring">
+      <svg viewBox="0 0 148 148" width="148" height="148">
+        <circle cx="74" cy="74" r="70" fill="#fff" stroke="#f0f0ec" stroke-width="1.5"/>
+        <defs>
+          <path id="cp"
+            d="M74,74 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/>
+        </defs>
+        <text font-size="9.2" fill="#aaa" letter-spacing="3.5"
+              font-family="Inter,system-ui,sans-serif" font-weight="600">
+          <textPath href="#cp">CLOUD · SECURITY · DEVSECOPS · AWS ·&nbsp;</textPath>
+        </text>
+      </svg>
+    </div>
+
     <canvas id="c"></canvas>
+    <p class="replay-hint">click to replay</p>
   </div>
 
-  <!-- Content -->
-  <div class="content-panel">
-    <div class="content-inner">
-      <p  class="tag   reveal" style="--d: 2.0s">Portfolio</p>
-      <h1 class="name  reveal" style="--d: 2.3s">Amar<br>Shindhe</h1>
-      <p  class="role  reveal" style="--d: 2.7s">Cloud Security Engineer</p>
-      <p  class="bio   reveal" style="--d: 3.1s">A short line or two about who you are, what you do, and what you care about.</p>
-      <div class="divider reveal" style="--d: 3.4s"></div>
-      <div class="links reveal" style="--d: 3.7s">
-        <a href="https://github.com/amrshindhe" target="_blank">GitHub</a>
-        <a href="#" target="_blank">LinkedIn</a>
-        <a href="mailto:hello@shindhe.in">Contact</a>
-      </div>
+  <!-- ── Info ──────────────────────────────────── -->
+  <div class="info">
+
+    <div class="status reveal" style="--d:2.0s">
+      <span class="status-dot"></span>
+      Open to work
     </div>
+
+    <h1 class="name reveal" style="--d:2.3s">Amar<br>Shindhe</h1>
+
+    <p class="role reveal" style="--d:2.7s">Cloud Security Engineer</p>
+
+    <div class="divider reveal" style="--d:3.0s"></div>
+
+    <p class="bio reveal" style="--d:3.2s">
+      Securing cloud infrastructure and building resilient systems.
+      Passionate about zero-trust architecture, DevSecOps pipelines,
+      and making the cloud safer for everyone.
+    </p>
+
+    <div class="chips reveal" style="--d:3.5s">
+      <span class="chip">AWS</span>
+      <span class="chip">Zero Trust</span>
+      <span class="chip">DevSecOps</span>
+      <span class="chip">SIEM</span>
+      <span class="chip">IAM</span>
+    </div>
+
+    <div class="links reveal" style="--d:3.8s">
+      <a href="https://github.com/amrshindhe" target="_blank">GitHub</a>
+      <a href="#" target="_blank">LinkedIn</a>
+      <a href="mailto:hello@shindhe.in">Contact</a>
+    </div>
+
   </div>
 
 </div>
@@ -210,26 +309,23 @@ const IMG_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArYAAAQRCAIAAABTq
 
 const canvas = document.getElementById('c');
 const ctx    = canvas.getContext('2d');
-const panel  = document.getElementById('panel');
+const card   = document.getElementById('portrait-card');
 const dot    = document.getElementById('dot');
 
 const img = new Image();
 img.onload = () => {
-  const W = img.naturalWidth;
-  const H = img.naturalHeight;
-  canvas.width  = W;
-  canvas.height = H;
+  const W = img.naturalWidth, H = img.naturalHeight;
+  canvas.width = W; canvas.height = H;
 
-  // Read pixels
   const off = document.createElement('canvas');
   off.width = W; off.height = H;
   off.getContext('2d').drawImage(img, 0, 0);
   const raw = off.getContext('2d').getImageData(0, 0, W, H).data;
 
   const THRESH = 150;
-  function isInk(idx) {
-    const i = idx * 4;
-    return (raw[i] + raw[i+1] + raw[i+2]) < THRESH * 3;
+  function isInk(i) {
+    const p = i * 4;
+    return (raw[p] + raw[p+1] + raw[p+2]) < THRESH * 3;
   }
 
   // BFS stroke extraction
@@ -267,7 +363,7 @@ img.onload = () => {
 
   strokes.sort((a, b) => a.minY - b.minY);
 
-  // Flatten strokes into one draw sequence
+  // Flatten into draw sequence
   let total = 0;
   for (const s of strokes) total += s.sxs.length;
   const order = new Int16Array(total * 2);
@@ -276,20 +372,17 @@ img.onload = () => {
     for (let i = 0; i < s.sxs.length; i++) { order[oi++] = s.sxs[i]; order[oi++] = s.sys[i]; }
   }
 
-  // ── Animation ────────────────────────────────────────────────
-  const DURATION = 4000;
-  const GAP_SQ   = 9;
+  // Animation
+  const DURATION = 4000, GAP_SQ = 9;
   let animId = null, startTime = null, lastCount = 0;
 
   function moveDot(x, y) {
-    const rect   = canvas.getBoundingClientRect();
-    const scaleX = rect.width  / W;
-    const scaleY = rect.height / H;
-    dot.style.left = (rect.left + x * scaleX) + "px";
-    dot.style.top  = (rect.top  + y * scaleY) + "px";
+    const r = canvas.getBoundingClientRect();
+    dot.style.left = (r.left + x * r.width  / W) + "px";
+    dot.style.top  = (r.top  + y * r.height / H) + "px";
   }
 
-  function runAnimation(ts) {
+  function draw(ts) {
     if (!startTime) startTime = ts;
     const progress = Math.min((ts - startTime) / DURATION, 1);
     const target   = Math.floor(progress * total);
@@ -314,29 +407,29 @@ img.onload = () => {
     }
 
     if (progress < 1) {
-      animId = requestAnimationFrame(runAnimation);
+      animId = requestAnimationFrame(draw);
     } else {
-      dot.style.opacity = '0';
-      panel.classList.add('done');
+      dot.style.opacity = "0";
+      card.classList.add("done");
     }
   }
 
   function startDraw() {
     if (animId) cancelAnimationFrame(animId);
-    panel.classList.remove('done');
-    dot.style.opacity = '1';
-    ctx.fillStyle = '#fff';
+    card.classList.remove("done");
+    dot.style.opacity = "1";
+    ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, W, H);
-    ctx.strokeStyle = '#1a1a1a';
+    ctx.strokeStyle = "#1a1a1a";
     ctx.lineWidth   = 1.5;
-    ctx.lineCap     = 'round';
-    ctx.lineJoin    = 'round';
+    ctx.lineCap     = "round";
+    ctx.lineJoin    = "round";
     startTime = null;
     lastCount = 0;
-    animId = requestAnimationFrame(runAnimation);
+    animId = requestAnimationFrame(draw);
   }
 
-  panel.addEventListener('click', startDraw);
+  card.addEventListener("click", startDraw);
   requestAnimationFrame(() => requestAnimationFrame(startDraw));
 };
 
