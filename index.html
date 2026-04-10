@@ -896,7 +896,7 @@ img.onload = () => {
   let oi=0;
   for(const s of strokes) for(let i=0;i<s.sxs.length;i++){order[oi++]=s.sxs[i];order[oi++]=s.sys[i];}
 
-  const DURATION=2500, GAP=9;
+  const DURATION=1500, GAP=9;
   let animId=null,t0=null,last=0;
 
   function moveDot(x,y){
