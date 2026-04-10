@@ -474,24 +474,24 @@
     position: absolute;
     white-space: nowrap;
     top: 50%;
-    left: 100%;
+    left: 12px;
     transform: translateY(-50%);
     transition: none;
     opacity: 0;
   }
   #ticker-strip .ticker-item.active {
-    animation: tickerIn 0.5s ease forwards;
+    animation: tickerIn 0.45s ease forwards;
   }
   #ticker-strip .ticker-item.exit {
-    animation: tickerOut 0.4s ease forwards;
+    animation: tickerOut 0.35s ease forwards;
   }
   @keyframes tickerIn {
-    from { opacity: 0; transform: translateY(-50%) translateX(30px); }
+    from { opacity: 0; transform: translateY(-50%) translateX(20px); }
     to   { opacity: 1; transform: translateY(-50%) translateX(0); }
   }
   @keyframes tickerOut {
     from { opacity: 1; transform: translateY(-50%) translateX(0); }
-    to   { opacity: 0; transform: translateY(-50%) translateX(-30px); }
+    to   { opacity: 0; transform: translateY(-50%) translateX(-20px); }
   }
   </style>
 </head>
