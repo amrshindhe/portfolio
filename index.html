@@ -523,14 +523,20 @@
   .pub-link svg { flex-shrink: 0; }
 
   @media (max-width: 680px) {
-    .exp-metrics { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .metric-box { padding: 14px 10px; }
-    .metric-val { font-size: 1.3rem; }
-    .metric-key { font-size: 0.65rem; }
     .exp-card { padding: 20px 16px; }
-    .exp-top { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .exp-top { flex-direction: column; gap: 6px; align-items: flex-start; }
     .exp-company { font-size: 1.1rem; }
-    .exp-tl-row { flex-direction: column; gap: 2px; }
+    .exp-role { font-size: 0.78rem; }
+    .exp-period { font-size: 0.72rem; }
+    .exp-metrics { grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 20px; }
+    .metric-box { padding: 10px 8px; border-radius: 10px; }
+    .metric-val { font-size: 13px !important; letter-spacing: -0.3px; }
+    .metric-val .a { font-size: 11px; }
+    .metric-key { font-size: 0.6rem; line-height: 1.3; margin-top: 3px; }
+    .exp-tl-row { flex-direction: column; gap: 1px; }
+    .exp-tl-role { font-size: 0.72rem; }
+    .exp-tl-period { font-size: 0.65rem; }
+    .exp-list li { font-size: 0.82rem; }
   }
   </style>
 </head>
