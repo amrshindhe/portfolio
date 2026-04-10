@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Amar Shindhe — Cloud Security Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -521,6 +521,17 @@
     color: #16a34a; text-decoration: none; margin-top: 2px; transition: gap 0.2s; }
   .pub-link:hover { gap: 8px; }
   .pub-link svg { flex-shrink: 0; }
+
+  @media (max-width: 680px) {
+    .exp-metrics { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .metric-box { padding: 14px 10px; }
+    .metric-val { font-size: 1.3rem; }
+    .metric-key { font-size: 0.65rem; }
+    .exp-card { padding: 20px 16px; }
+    .exp-top { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .exp-company { font-size: 1.1rem; }
+    .exp-tl-row { flex-direction: column; gap: 2px; }
+  }
   </style>
 </head>
 <body>
