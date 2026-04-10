@@ -49,7 +49,7 @@
 
     /* ── NAV ──────────────────────────────────── */
     #nav {
-      position: fixed; top: 0; left: 0; right: 0;
+      position: fixed; top: 28px; left: 0; right: 0;
       z-index: 200;
       background: rgba(245,245,240,0.82);
       backdrop-filter: blur(16px);
@@ -434,11 +434,78 @@
     @media (max-width: 420px) {
       .certs-grid { grid-template-columns: 1fr; }
     }
+
+  /* ── Ticker strip ─────────────────────────── */
+  #ticker-strip {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1100;
+    background: #1a1a2e;
+    color: #a3e635;
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(163,230,53,0.2);
+  }
+  #ticker-strip .ticker-label {
+    flex-shrink: 0;
+    background: #a3e635;
+    color: #1a1a2e;
+    font-weight: 700;
+    padding: 0 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+  }
+  #ticker-strip .ticker-track {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+  }
+  #ticker-strip .ticker-item {
+    position: absolute;
+    white-space: nowrap;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    transition: none;
+    opacity: 0;
+  }
+  #ticker-strip .ticker-item.active {
+    animation: tickerIn 0.5s ease forwards;
+  }
+  #ticker-strip .ticker-item.exit {
+    animation: tickerOut 0.4s ease forwards;
+  }
+  @keyframes tickerIn {
+    from { opacity: 0; transform: translateY(-50%) translateX(30px); }
+    to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+  }
+  @keyframes tickerOut {
+    from { opacity: 1; transform: translateY(-50%) translateX(0); }
+    to   { opacity: 0; transform: translateY(-50%) translateX(-30px); }
+  }
   </style>
 </head>
 <body>
 
 <div id="dot"></div>
+
+<!-- ═══ TICKER STRIP ══════════════════════════ -->
+<div id=ticker-strip>
+  <div class=ticker-label>&#9670; Live</div>
+  <div class=ticker-track id=tickerTrack>
+    <span class=ticker-item></span>
+  </div>
+</div>
 
 <!-- ═══ NAV ═══════════════════════════════════ -->
 <nav id="nav">
@@ -914,6 +981,43 @@ document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
 
 /* ── HERO reveal (CSS-based, keep) ────────────── */
 // .reveal already uses CSS animation-delay
+
+  // ── Ticker ──────────────────────────────────
+  (function() {
+    const quotes = [
+      "Securing the cloud, one misconfiguration at a time.",
+      "If it's not automated, it's a vulnerability waiting to happen.",
+      "Zero trust is not a product — it's a mindset.",
+      "Shift left or get left behind.",
+      "The best firewall is a well-trained engineer.",
+      "In cloud security, visibility is everything.",
+      "Every deployment is a security decision.",
+      "Compliance is the floor, not the ceiling.",
+      "Defense in depth: because one lock is never enough.",
+      "Threat modelling before threat response.",
+    ];
+    let current = 0;
+    const track = document.getElementById('tickerTrack');
+
+    function showNext() {
+      const old = track.querySelector('.ticker-item.active');
+      if (old) {
+        old.classList.remove('active');
+        old.classList.add('exit');
+        setTimeout(() => old.remove(), 400);
+      }
+      const el = document.createElement('span');
+      el.className = 'ticker-item';
+      el.textContent = quotes[current % quotes.length];
+      track.appendChild(el);
+      requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('active')));
+      current++;
+    }
+
+    showNext();
+    setInterval(showNext, 3500);
+  })();
+
 </script>
 </body>
 </html>
