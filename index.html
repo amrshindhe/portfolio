@@ -273,7 +273,7 @@
     .stat-lbl { font-size: 12px; color: var(--light); line-height: 1.5; }
 
     /* ── EXPERIENCE ───────────────────────────── */
-    .exp-card {
+    .exp-card { margin-bottom: 32px;
       background: var(--surface); border-radius: 24px;
       padding: 40px;
       box-shadow: 0 2px 16px rgba(0,0,0,0.06);
@@ -493,6 +493,33 @@
     from { opacity: 1; transform: translateY(-50%) translateX(0); }
     to   { opacity: 0; transform: translateY(-50%) translateX(-20px); }
   }
+
+  .exp-timeline { display: flex; flex-direction: column; gap: 4px; margin: 10px 0 14px; border-left: 2px solid #a3e635; padding-left: 12px; }
+  .exp-tl-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .exp-tl-role { font-size: 0.78rem; font-weight: 600; color: #2d2d2d; }
+  .exp-tl-period { font-size: 0.72rem; color: #888; }
+
+  /* ── Publications ─────────────────────────── */
+  .pub-grid { display: grid; gap: 20px; }
+  .pub-card {
+    background: #fff;
+    border: 1px solid #e8e8e4;
+    border-radius: 14px;
+    padding: 22px 26px;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: box-shadow 0.25s, transform 0.25s;
+  }
+  .pub-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .pub-title { font-size: 1rem; font-weight: 700; color: #1a1a1a; line-height: 1.4; }
+  .pub-meta { font-size: 0.75rem; color: #888; font-family: "JetBrains Mono", monospace; }
+  .pub-desc { font-size: 0.82rem; color: #555; line-height: 1.6; }
+  .pub-tag { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 3px 10px;
+    border-radius: 20px; background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; margin-top: 4px; }
+
+  .pub-link { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; font-weight: 600;
+    color: #16a34a; text-decoration: none; margin-top: 2px; transition: gap 0.2s; }
+  .pub-link:hover { gap: 8px; }
+  .pub-link svg { flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -514,7 +541,7 @@
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
-      <li><a href="#arsenal">Arsenal</a></li>
+      <li><a href="#publications">Publications</a></li><li><a href="#arsenal">Arsenal</a></li>
       <li><a href="#certs">Certs</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -560,7 +587,7 @@
       <p class="hero-role reveal" style="--d:2.7s">Cloud Security Engineer</p>
       <div class="divider reveal" style="--d:3.0s"></div>
       <p class="hero-bio reveal" style="--d:3.2s">
-        2.5+ years securing cloud infrastructure, pipelines, and applications across healthcare tech.
+        3.5+ years securing cloud infrastructure, pipelines, and applications across healthcare tech.
       </p>
       <div class="hero-chips reveal" style="--d:3.5s">
         <span class="hero-chip">AWS</span>
@@ -618,13 +645,45 @@
       <span class="sec-tag">Experience</span>
       <span class="sec-line"></span>
     </div>
+    <!-- Mekari -->
     <div class="exp-card fade-up">
       <div class="exp-top">
         <div>
-          <div class="exp-company">Halodoc Technologies</div>
-          <div class="exp-role">Security Engineer 2 &nbsp;·&nbsp; Bengaluru, India</div>
+          <div class="exp-company">Mekari</div>
+          <div class="exp-role">Senior DevSecOps Engineer &nbsp;·&nbsp; Central Jakarta, Indonesia &nbsp;·&nbsp; Hybrid</div>
         </div>
-        <span class="exp-period">Feb 2023 — Present</span>
+        <span class="exp-period">Aug 2025 — Present</span>
+      </div>
+      <div class="exp-metrics stagger">
+        <div class="metric-box">
+          <span class="metric-val">Dev<span class="a">SecOps</span></span>
+          <span class="metric-key">End-to-end pipeline<br>security from scratch</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-val">K8s<span class="a">Sec</span></span>
+          <span class="metric-key">Kubernetes security<br>architecture built</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-val">Cloud<span class="a">Sec</span></span>
+          <span class="metric-key">Cloud security<br>posture established</span>
+        </div>
+      </div>
+      <ul class="exp-list stagger">
+        <li>Establishing DevSecOps from ground up — integrating security gates across all CI/CD pipelines.</li>
+        <li>Building and owning Kubernetes security architecture: RBAC, network policies, runtime threat detection.</li>
+        <li>Designing cloud security posture management across multi-service AWS infrastructure.</li>
+        <li>Defining security standards, tooling, and processes to mature the engineering org's security culture.</li>
+      </ul>
+    </div>
+
+    <!-- Halodoc -->
+    <div class="exp-card fade-up">
+      <div class="exp-top">
+        <div>
+          <div class="exp-company">Halodoc</div>
+          <div class="exp-role">Security Engineer (I → II) &nbsp;·&nbsp; Bengaluru, India &nbsp;·&nbsp; Hybrid</div>
+        </div>
+        <span class="exp-period">Feb 2023 — Aug 2025 &nbsp;·&nbsp; 2 yrs 7 mos</span>
       </div>
 
       <div class="exp-metrics stagger">
@@ -642,6 +701,12 @@
         </div>
       </div>
 
+      <div class="exp-timeline stagger">
+        <div class="exp-tl-row"><span class="exp-tl-role">Security Engineer II</span><span class="exp-tl-period">Jan 2025 – Aug 2025 · 8 mos</span></div>
+        <div class="exp-tl-row"><span class="exp-tl-role">Security Engineer I</span><span class="exp-tl-period">Jun 2023 – Dec 2024 · 1 yr 7 mos</span></div>
+        <div class="exp-tl-row"><span class="exp-tl-role">Security Engineer Intern</span><span class="exp-tl-period">Feb 2023 – May 2023 · 4 mos</span></div>
+      </div>
+
       <ul class="exp-list stagger">
         <li>Deployed OpenSearch SIEM integrating multi-source logs with custom detection use cases.</li>
         <li>Designed and automated WAF rules preventing DDoS and fraud incidents — zero production impact.</li>
@@ -650,6 +715,40 @@
         <li>Responded to major incidents (DDoS, OTP fraud) — Athena log analysis, WAF tuning, rate limiting.</li>
         <li>Mentored junior engineers and led hiring &amp; knowledge-sharing to scale security awareness.</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PUBLICATIONS ══════════════════════════ -->
+<section id="publications" class="section">
+  <div class="wrap">
+    <div class="sec-header fade-up">
+      <span class="sec-tag">Publications</span>
+      <span class="sec-line"></span>
+    </div>
+    <div class="pub-grid">
+
+      <div class="pub-card fade-up">
+        <a class="pub-link" href="https://blogs.halodoc.io/secure-conversations-automated-pii-detection-and-response-in-slack-channels/" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Read Publication</a><div class="pub-title">Automated PII Detection and Response in Slack Channels</div>
+        <div class="pub-meta">Halodoc Engineering Blog &nbsp;·&nbsp; Nov 24, 2023</div>
+        <div class="pub-desc">Covers the implementation of Slack PII Monitoring at Halodoc — flowchart design, detection methods, incident handling procedures, and its impact on creating a secure digital workspace.</div>
+        <span class="pub-tag">Data Privacy · Security Engineering</span>
+      </div>
+
+      <div class="pub-card fade-up">
+        <a class="pub-link" href="https://cdef.gitbook.io/2023-2nd-cdef-bulletin/cyber-horizon/pemantauan-informasi-sensitif-dan-rahasia-secara-otomatis-pada-slack" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Read Publication</a><div class="pub-title">Automatic Monitoring of Sensitive and Confidential Information in Slack</div>
+        <div class="pub-meta">CDEF Bulletin 2nd Edition &nbsp;·&nbsp; Sep 1, 2023</div>
+        <div class="pub-desc">Featured in the Cyber Defense Indonesia (CDEF) Bulletin — explores automated monitoring of sensitive data in Slack environments, contributing to the cybersecurity community's knowledge base.</div>
+        <span class="pub-tag">Cybersecurity · PII Monitoring</span>
+      </div>
+
+      <div class="pub-card fade-up">
+        <a class="pub-link" href="https://www.jetir.org/view?paper=JETIR2310102" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Read Publication</a><div class="pub-title">Peer to Peer Decentralized Ride-Sharing using Blockchain Technology</div>
+        <div class="pub-meta">Journal of Emerging Technologies and Innovative Research &nbsp;·&nbsp; Oct 17, 2023</div>
+        <div class="pub-desc">Research paper on utilizing blockchain technology for peer-to-peer ride-sharing platforms, focusing on decentralization, smart contracts, and transparency to enhance trust and security among participants.</div>
+        <span class="pub-tag">Blockchain · Decentralization · Research</span>
+      </div>
+
     </div>
   </div>
 </section>
@@ -664,39 +763,49 @@
     <div class="arsenal-grid stagger">
 
       <div class="arsenal-card fade-up">
-        <div class="arsenal-title">Cloud Security</div>
+        <div class="arsenal-title">Cloud &amp; Container Security</div>
         <div class="chips">
-          <span class="chip">AWS IAM</span><span class="chip">VPC</span>
+          <span class="chip">AWS IAM</span><span class="chip">Amazon EKS</span>
+          <span class="chip">Kubernetes</span><span class="chip">K8s</span>
           <span class="chip">WAF</span><span class="chip">GuardDuty</span>
           <span class="chip">Security Hub</span><span class="chip">Inspector</span>
-          <span class="chip">Shield Advanced</span><span class="chip">Config</span>
-          <span class="chip">Macie</span><span class="chip">CloudFront</span>
-          <span class="chip">Route53</span><span class="chip">Prowler</span>
-          <span class="chip">PingSafe</span><span class="chip">Kubescape</span>
+          <span class="chip">Shield Advanced</span><span class="chip">Prowler</span>
+          <span class="chip">Kubescape</span><span class="chip">Cloud Computing</span>
         </div>
       </div>
 
       <div class="arsenal-card fade-up">
-        <div class="arsenal-title">DevSecOps</div>
+        <div class="arsenal-title">DevSecOps &amp; CI/CD</div>
         <div class="chips">
-          <span class="chip">Trivy</span><span class="chip">Checkov</span>
-          <span class="chip">Semgrep</span><span class="chip">Gitleaks</span>
-          <span class="chip">detect-secrets</span><span class="chip">GitHub Actions</span>
-          <span class="chip">Jenkins</span><span class="chip">GitLab CI</span>
-          <span class="chip">DefectDojo</span><span class="chip">Anchore</span>
-          <span class="chip">Dependency-Check</span><span class="chip">SonarQube</span>
+          <span class="chip">GitHub Actions</span><span class="chip">Continuous Integration</span>
+          <span class="chip">Trivy</span><span class="chip">Semgrep</span>
+          <span class="chip">Gitleaks</span><span class="chip">detect-secrets</span>
+          <span class="chip">DefectDojo</span><span class="chip">SonarQube</span>
+          <span class="chip">Checkov</span><span class="chip">Dependency-Check</span>
+          <span class="chip">SSDLC</span><span class="chip">Security Development Lifecycle</span>
         </div>
       </div>
 
       <div class="arsenal-card fade-up">
         <div class="arsenal-title">Application Security</div>
         <div class="chips">
+          <span class="chip">Application Security</span><span class="chip">Security Best Practices</span>
           <span class="chip">Burp Suite</span><span class="chip">OWASP ZAP</span>
-          <span class="chip">Nuclei</span><span class="chip">Nessus</span>
-          <span class="chip">Acunetix</span><span class="chip">Postman</span>
+          <span class="chip">Nuclei</span><span class="chip">CodeQL</span>
           <span class="chip">SQLi</span><span class="chip">XSS</span>
           <span class="chip">IDOR</span><span class="chip">SSRF</span>
-          <span class="chip">Pynt</span><span class="chip">Akto</span>
+          <span class="chip">SQL</span><span class="chip">Pynt</span>
+        </div>
+      </div>
+
+      <div class="arsenal-card fade-up">
+        <div class="arsenal-title">Threat &amp; Incident Response</div>
+        <div class="chips">
+          <span class="chip">SIEM</span><span class="chip">Incident Handling</span>
+          <span class="chip">Web Application Firewalls</span><span class="chip">DDoS Mitigation</span>
+          <span class="chip">Security Research</span><span class="chip">Information Security Analysis</span>
+          <span class="chip">OpenSearch</span><span class="chip">CloudWatch</span>
+          <span class="chip">Networking</span><span class="chip">SOCRadar</span>
         </div>
       </div>
 
@@ -707,30 +816,16 @@
           <span class="chip">Drozer</span><span class="chip">Objection</span>
           <span class="chip">ApkTool</span><span class="chip">ADB</span>
           <span class="chip">Snyk</span><span class="chip">Checkmarx</span>
-          <span class="chip">CodeQL</span>
         </div>
       </div>
 
       <div class="arsenal-card fade-up">
-        <div class="arsenal-title">Ops &amp; Monitoring</div>
+        <div class="arsenal-title">Productivity &amp; Ops</div>
         <div class="chips">
-          <span class="chip">OpenSearch SIEM</span><span class="chip">SOCRadar</span>
-          <span class="chip">CloudWatch</span><span class="chip">Datadog</span>
-          <span class="chip">New Relic</span><span class="chip">ELK Stack</span>
-          <span class="chip">CloudTrail</span><span class="chip">Athena</span>
-          <span class="chip">Nmap</span><span class="chip">Wireshark</span>
-          <span class="chip">Metasploit</span>
-        </div>
-      </div>
-
-      <div class="arsenal-card fade-up">
-        <div class="arsenal-title">Languages &amp; Automation</div>
-        <div class="chips">
-          <span class="chip">Python</span><span class="chip">Go</span>
-          <span class="chip">JavaScript</span><span class="chip">Node.js</span>
-          <span class="chip">Java / Spring Boot</span><span class="chip">C++</span>
-          <span class="chip">PIICatcher</span><span class="chip">Tokern</span>
-          <span class="chip">Slack API</span><span class="chip">Jira API</span>
+          <span class="chip">Google Workspace</span><span class="chip">Datadog</span>
+          <span class="chip">New Relic</span><span class="chip">Jira</span>
+          <span class="chip">Confluence</span><span class="chip">Python</span>
+          <span class="chip">Bash</span><span class="chip">Terraform</span>
         </div>
       </div>
 
@@ -984,18 +1079,7 @@ document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
 
   // ── Ticker ──────────────────────────────────
   (function() {
-    const quotes = [
-      "Securing the cloud, one misconfiguration at a time.",
-      "If it's not automated, it's a vulnerability waiting to happen.",
-      "Zero trust is not a product — it's a mindset.",
-      "Shift left or get left behind.",
-      "The best firewall is a well-trained engineer.",
-      "In cloud security, visibility is everything.",
-      "Every deployment is a security decision.",
-      "Compliance is the floor, not the ceiling.",
-      "Defense in depth: because one lock is never enough.",
-      "Threat modelling before threat response.",
-    ];
+    const quotes = [];
     let current = 0;
     const track = document.getElementById('tickerTrack');
 
@@ -1014,8 +1098,7 @@ document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
       current++;
     }
 
-    showNext();
-    setInterval(showNext, 4300);
+    if(quotes.length){ showNext(); setInterval(showNext, 4300); }
   })();
 
 </script>
