@@ -14,7 +14,7 @@
 <body>
   <div id="tap" hidden>Tap to pledge allegiance to<br>Supreme Leader Kylian 🫡</div>
   <img src="/assets/kylian-dictador.png" alt="" hidden>
-  <audio src="/assets/kylian-dictador.mp3" preload="auto"></audio>
+  <audio src="/assets/kylian-dictador-30s.mp3" preload="auto"></audio>
   <script>
     // The photo only shows while the song plays, then the visitor goes to the main site after 30s.
     // Browsers block audio until the visitor interacts, so ask for a tap when autoplay is refused.
@@ -39,6 +39,10 @@
       tap.hidden = false;
       tap.addEventListener('click', start, { once: true });
       addEventListener('keydown', start);
+    });
+    // In-app browsers ignore preload, so download the song up front and it plays the instant they tap.
+    fetch(song.src).then(r => r.blob()).then(b => {
+      if (song.paused) song.src = URL.createObjectURL(b);
     });
   </script>
 </body>
