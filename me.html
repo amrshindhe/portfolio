@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="30;url=/">
+  <title>Amar Shindhe</title>
+  <style>body{margin:0}img{display:block;max-width:100%}</style>
+</head>
+<body>
+  <img src="/assets/kylian-dictador.png" alt="">
+  <audio src="/assets/kylian-dictador.mp3" autoplay></audio>
+  <script>
+    // Browsers block autoplay with sound until the visitor interacts; start on first tap/click/key.
+    const song = document.querySelector('audio');
+    song.play().catch(() => {
+      const start = () => song.play();
+      addEventListener('pointerdown', start, { once: true });
+      addEventListener('keydown', start, { once: true });
+    });
+  </script>
+</body>
+</html>
