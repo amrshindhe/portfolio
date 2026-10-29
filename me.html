@@ -8,11 +8,11 @@
     [hidden]{display:none!important}
     body{margin:0}
     img{display:block;max-width:100%}
-    #tap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font:16px system-ui,sans-serif;cursor:pointer}
+    #tap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;font:18px/1.5 system-ui,sans-serif;cursor:pointer}
   </style>
 </head>
 <body>
-  <div id="tap" hidden>Tap anywhere</div>
+  <div id="tap" hidden>Tap to pledge allegiance to<br>Supreme Leader Kylian 🫡</div>
   <img src="/assets/kylian-dictador.png" alt="" hidden>
   <audio src="/assets/kylian-dictador.mp3" preload="auto"></audio>
   <script>
@@ -21,19 +21,23 @@
     const song = document.querySelector('audio');
     const photo = document.querySelector('img');
     const tap = document.getElementById('tap');
+    let shown = false;
     const show = () => {
+      if (shown) return;
+      shown = true;
       tap.hidden = true;
       photo.hidden = false;
       setTimeout(() => location.replace('/'), 30000);
     };
+    // Mobile and in-app browsers (Instagram) only grant audio on click, not pointerdown/touchstart.
     const start = () => {
-      removeEventListener('pointerdown', start);
       removeEventListener('keydown', start);
-      song.play().then(show);
+      song.play().catch(() => {});
+      show();
     };
     song.play().then(show).catch(() => {
       tap.hidden = false;
-      addEventListener('pointerdown', start);
+      tap.addEventListener('click', start, { once: true });
       addEventListener('keydown', start);
     });
   </script>
