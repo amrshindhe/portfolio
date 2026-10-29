@@ -3,20 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="refresh" content="30;url=/">
   <title>Amar Shindhe</title>
-  <style>body{margin:0}img{display:block;max-width:100%}</style>
+  <style>
+    [hidden]{display:none!important}
+    body{margin:0}
+    img{display:block;max-width:100%}
+    #tap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font:16px system-ui,sans-serif;cursor:pointer}
+  </style>
 </head>
 <body>
-  <img src="/assets/kylian-dictador.png" alt="">
-  <audio src="/assets/kylian-dictador.mp3" autoplay></audio>
+  <div id="tap" hidden>Tap anywhere</div>
+  <img src="/assets/kylian-dictador.png" alt="" hidden>
+  <audio src="/assets/kylian-dictador.mp3" preload="auto"></audio>
   <script>
-    // Browsers block autoplay with sound until the visitor interacts; start on first tap/click/key.
+    // The photo only shows while the song plays, then the visitor goes to the main site after 30s.
+    // Browsers block audio until the visitor interacts, so ask for a tap when autoplay is refused.
     const song = document.querySelector('audio');
-    song.play().catch(() => {
-      const start = () => song.play();
-      addEventListener('pointerdown', start, { once: true });
-      addEventListener('keydown', start, { once: true });
+    const photo = document.querySelector('img');
+    const tap = document.getElementById('tap');
+    const show = () => {
+      tap.hidden = true;
+      photo.hidden = false;
+      setTimeout(() => location.replace('/'), 30000);
+    };
+    const start = () => {
+      removeEventListener('pointerdown', start);
+      removeEventListener('keydown', start);
+      song.play().then(show);
+    };
+    song.play().then(show).catch(() => {
+      tap.hidden = false;
+      addEventListener('pointerdown', start);
+      addEventListener('keydown', start);
     });
   </script>
 </body>
