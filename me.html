@@ -7,7 +7,8 @@
   <style>
     [hidden]{display:none!important}
     body{margin:0}
-    img{display:block;max-width:100%}
+    /* Fill the screen the same way for every photo so the swap doesn't jump between sizes. */
+    img{position:fixed;inset:0;width:100%;height:100%;object-fit:contain}
     #tap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;font:18px/1.5 system-ui,sans-serif;cursor:pointer}
   </style>
 </head>
@@ -16,18 +17,29 @@
   <img src="/assets/kylian-dictador.png" alt="" hidden>
   <audio src="/assets/kylian-dictador-30s.mp3" preload="auto"></audio>
   <script>
-    // The photo only shows while the song plays, then the visitor goes to the main site after 30s.
+    // The photos show once the song starts and keep cycling every 5s, back to the first after the last.
     // Browsers block audio until the visitor interacts, so ask for a tap when autoplay is refused.
+    const pics = [
+      '/assets/kylian-dictador.png',
+      '/assets/kylian-poster-crowd.jpg',
+      '/assets/kylian-portrait.jpg',
+      '/assets/kylian-poster-sun.jpg',
+    ];
+    pics.forEach(src => { new Image().src = src; }); // preload so every swap is instant
     const song = document.querySelector('audio');
     const photo = document.querySelector('img');
     const tap = document.getElementById('tap');
     let shown = false;
+    let pic = 0;
     const show = () => {
       if (shown) return;
       shown = true;
       tap.hidden = true;
       photo.hidden = false;
-      setTimeout(() => location.replace('/'), 30000);
+      setInterval(() => {
+        pic = (pic + 1) % pics.length;
+        photo.src = pics[pic];
+      }, 5000);
     };
     // Mobile and in-app browsers (Instagram) only grant audio on click, not pointerdown/touchstart.
     const start = () => {
